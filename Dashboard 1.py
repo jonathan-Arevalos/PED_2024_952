@@ -1,3 +1,9 @@
-#prueba 1
+import pandas as pd
+import plotly.express as px
 
-print("Prueba1")
+#Conexion a la base de datos
+use="root"
+password="12345678"
+server="localhost"
+
+
