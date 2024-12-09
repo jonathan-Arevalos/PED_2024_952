@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+from click import style
 from dash import dcc, html, callback, Input, Output
 from sqlalchemy import create_engine
 
@@ -35,8 +36,24 @@ def histograma():
     )
     fig_box.update_layout(xaxis_title="Precio",yaxis_title="Cantidad")
 
-    body=html.Div([
-
-    ])
+    body = html.Div(
+        [
+            html.H3("HISTOGRAMA DE PRECIOS",style={"text-align":"center"}),
+            html.P("EXPLORA EL HISTORIAL DE PRECIOS DE LOS TENIS",style={"text-align":"center"}),
+            dcc.Graph(figure=fig),
+            html.H3("BOXPLOT DE PRECIOS",style={"text-align":"center"}),
+            dcc.Dropdown(
+                options=[
+                    {
+                        "label":"Precio",
+                    }
+                ],
+                value="Precio",
+                style={"width":"100%"}
+            ),
+            html.Div(dcc.Graph(figure=fig_box))
+        ],
+        style={"background-color":"#2b2b2b"}
+    )
 
     return body
