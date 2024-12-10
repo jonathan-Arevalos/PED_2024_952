@@ -41,11 +41,10 @@ def histograma():
             html.H3("HISTOGRAMA DE PRECIOS",style={"text-align":"center"}),
             html.P("EXPLORA EL HISTORIAL DE PRECIOS DE LOS TENIS",style={"text-align":"center"}),
             dcc.Graph(figure=fig),
-            html.H3("BOXPLOT DE PRECIOS",style={"text-align":"center"}),
             dcc.Dropdown(
                 options=[
                     {
-                        "label":"Precio",
+                        "label":"precio",
                     }
                 ],
                 value="Precio",

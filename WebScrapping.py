@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
         #ejecucion scrapping
         busqueda="tenis"
-        paginas=1
+        paginas=8
         adidas(busqueda, paginas, dbconecxion)
 
     except Error as e:
