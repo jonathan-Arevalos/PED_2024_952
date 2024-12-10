@@ -85,11 +85,17 @@ if __name__ == "__main__":
 
         #ejecucion scrapping
         busqueda="tenis"
-        paginas=8
+        paginas=7
         adidas(busqueda, paginas, dbconecxion)
 
     except Error as e:
         print(f"Error al conectar a la base de datos: {e}")
+
+
+
+
+
+
     """finally:
         if dbconecxion.is_connected():
             dbconecxion.close()

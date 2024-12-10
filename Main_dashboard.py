@@ -1,7 +1,9 @@
 
 from dash import dcc, html, Dash, callback, Output, Input
 import Dashboard_1 as d1
-import Dashboard_2 as d2  # Importa Dashboard_2
+import Dashboard_2 as d2
+import Dashboard_3 as d3
+
 from Welcome_main import menu_dash
 
 
@@ -20,6 +22,8 @@ def display_page(pathname):
         return d1.histograma()
     elif pathname == '/dashboard2':
         return d2.histograma()  # Llama a la función de Dashboard_2
+    elif pathname == '/dashboard3':
+        return d3.histograma()  # Llama a la función de Dashboard_2
     else:
         return menu_dash()  # Muestra el menú principal por defecto
 

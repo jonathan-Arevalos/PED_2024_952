@@ -3,55 +3,53 @@ import plotly.express as px
 from dash import dcc, html, callback, Input, Output
 from sqlalchemy import create_engine
 
-
 # Conexión a la base de datos
 user = "root"
 password = "12345678"
 server = "localhost"
-db = "adidas_scrapper"
+db = "adidas_scrapper"  # Reemplaza con el nombre de tu base de datos
 
-# Cadena que se usara para realizar la conexión con pymysql
+# Cadena de conexión
 cadena_conexion = f"mysql+pymysql://{user}:{password}@{server}/{db}"
-
-# Establecer conexión con engine
 engine = create_engine(cadena_conexion)
 conexion = engine.connect()
 
-sql = "SELECT * FROM INFO"
+# Consulta SQL para seleccionar Tipo_envio, Categoria y Precio
+sql = "SELECT Tipo_envio, Categoria, Precio FROM informacion"  # Asegúrate de que el nombre de la tabla sea correcto
 data = pd.read_sql(sql, conexion)
 
 conexion.close()
 
 def histograma():
-    fig=px.histogram(data,x="Precio",nbins=10,title="HISTOGRAMA DE PRECIOS",template="plotly_dark")
-    fig.update_layout(xaxis_title="Precio",yaxis_title="Cantidad")
-
-    fig_box = px.scatter(
+    # Gráfico de barras para la cantidad de productos por tipo de envío
+    fig_barras = px.bar(
         data,
-        x="Precio",
-        y="quantity",  # Replace with the correct column name
-        title="BOXPLOT DE PRECIOS",
+        x="Tipo_envio",
+        color="Categoria",  # Agrupa por categoría
+        title="CANTIDAD DE PRODUCTOS POR TIPO DE ENVÍO Y CATEGORÍA",
         template="plotly_dark"
     )
-    fig_box.update_layout(xaxis_title="Precio",yaxis_title="Cantidad")
+    fig_barras.update_layout(xaxis_title="Tipo de Envío", yaxis_title="Cantidad")
+
+    # Gráfico de dispersión para Precio vs. Categoría, agrupado por Tipo_envio
+    fig_scatter = px.scatter(
+        data,
+        x="Categoria",
+        y="Precio",
+        color="Tipo_envio",  # Agrupa por tipo de envío
+        title="PRECIO VS. CATEGORÍA POR TIPO DE ENVÍO",
+        template="plotly_dark"
+    )
+    fig_scatter.update_layout(xaxis_title="Categoría", yaxis_title="Precio")
 
     body = html.Div(
         [
-            html.H3("HISTOGRAMA DE PRECIOS",style={"text-align":"center"}),
-            html.P("EXPLORA EL HISTORIAL DE PRECIOS DE LOS TENIS",style={"text-align":"center"}),
-            dcc.Graph(figure=fig),
-            dcc.Dropdown(
-                options=[
-                    {
-                        "label":"precio",
-                    }
-                ],
-                value="Precio",
-                style={"width":"100%"}
-            ),
-            html.Div(dcc.Graph(figure=fig_box))
+            html.H3("CANTIDAD DE PRODUCTOS POR TIPO DE ENVÍO Y CATEGORÍA", style={"text-align": "center"}),
+            dcc.Graph(figure=fig_barras),
+            html.H3("PRECIO VS. CATEGORÍA POR TIPO DE ENVÍO", style={"text-align": "center"}),
+            dcc.Graph(figure=fig_scatter)
         ],
-        style={"background-color":"#2b2b2b"}
+        style={"background-color": "#2b2b2b"}
     )
 
     return body
