@@ -1,6 +1,5 @@
 import pandas as pd
 import plotly.express as px
-from click import style
 from dash import dcc, html, callback, Input, Output
 from sqlalchemy import create_engine
 
